@@ -8,4 +8,4 @@ ADD Gemfile Gemfile.lock /app/
 RUN bundle install
 ADD . /app
 
-ENTRYPOINT ["/app/token_create.rb"]
+ENTRYPOINT ["/app/users_create.rb"]
