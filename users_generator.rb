@@ -50,7 +50,6 @@ class UsersGenerator
 
     sleep 5
 
-    puts session.text
     accounts.split(',').each do |account|
       session.find('a', text: 'New User').click
 
@@ -65,7 +64,6 @@ class UsersGenerator
   private
 
   def do_login
-    puts 'do login'
     new_window = session.window_opened_by {
       begin
         session.find('span', text: 'Sign in with Google').click
