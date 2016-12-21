@@ -41,8 +41,12 @@ class UsersGenerator
 
     frame = session.find('iframe#oauth-iframe')
 
-    session.driver.browser.switch_to.frame(frame.native)
-    do_login
+    new_window = nil
+    session.within_frame(frame) do
+      new_window = get_new_window
+    end
+
+    do_login(new_window: new_window)
 
     sleep 5
 
@@ -63,14 +67,17 @@ class UsersGenerator
 
   private
 
-  def do_login
-    new_window = session.window_opened_by {
+  def get_new_window
+    return session.window_opened_by {
       begin
         session.find('span', text: 'Sign in with Google').click
       rescue Exception => e
         puts e
       end
     }
+  end
+
+  def do_login(new_window: get_new_window)
     session.within_window new_window do
       email = session.find('#Email')
       email.set(user)
